@@ -55,7 +55,7 @@ jobs:
         echo "  StrictHostKeyChecking no" >> ~/.ssh/config
 
         # Copy the built application files to the server (adjust path accordingly)
-        scp -r -o StrictHostKeyChecking=no dist/* $USER@$HOST:/path/to/your/server/app/
+        scp -r -o StrictHostKeyChecking=no dist/* $USER@$HOST:~/nodejsdir
 
         # SSH into the server and restart the application (example with pm2)
         ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
