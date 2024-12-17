@@ -1,0 +1,18 @@
+sudo -i -u postgres
+psql
+-- Create the database
+CREATE DATABASE test_db;
+
+-- Create the user
+CREATE USER db_user WITH PASSWORD 'your_password';
+
+-- Grant all privileges on the database to the user
+GRANT ALL PRIVILEGES ON DATABASE test_db TO db_user;
+\q
+psql -U db_user -d test_db
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,      
+    name VARCHAR(255) NOT NULL,   
+    position VARCHAR(255),        
+    salary INTEGER               
+);

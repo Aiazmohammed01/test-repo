@@ -1,0 +1,20 @@
+sudo mysql -u root -p
+-- Create the database
+CREATE DATABASE test_db;
+
+-- Create the user with a password
+CREATE USER 'db_user'@'localhost' IDENTIFIED BY 'your_password';
+
+-- Grant all privileges on the test_db database to the user
+GRANT ALL PRIVILEGES ON test_db.* TO 'db_user'@'localhost';
+
+-- Flush the privileges to ensure they are applied
+FLUSH PRIVILEGES;
+exit;
+mysql -u db_user -p test_db
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,  
+    name VARCHAR(255) NOT NULL,         
+    position VARCHAR(255),               
+    salary INT                          
+);
