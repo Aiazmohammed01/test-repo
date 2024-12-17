@@ -61,8 +61,8 @@ jobs:
         ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
           cd ~/nodejsdir
           # Pull the latest changes (optional)
-          git pull origin main
+         # git pull origin main
           # Install dependencies and restart the app (if using pm2, docker, etc.)
           npm install --production  # Install dependencies if required
-          pm2 restart app  # Or any deployment script you use
+         # pm2 restart app  # Or any deployment script you use
         EOF
