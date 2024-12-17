@@ -20,8 +20,7 @@
       "rxjs": "^7.5.0",
       "class-validator": "^0.14.0",
       "class-transformer": "^0.4.0",
-      "dotenv": "^16.0.0",
-      "nestjs-dotenv": "^1.0.0"
+      "dotenv": "^16.0.0"
     },
     "devDependencies": {
       "@nestjs/cli": "^9.0.0",
