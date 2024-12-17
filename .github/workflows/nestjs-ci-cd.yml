@@ -59,7 +59,7 @@ jobs:
 
         # SSH into the server and restart the application (example with pm2)
         ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
-          cd /path/to/your/server/app
+          cd ~/nodejsdir
           # Pull the latest changes (optional)
           git pull origin main
           # Install dependencies and restart the app (if using pm2, docker, etc.)
