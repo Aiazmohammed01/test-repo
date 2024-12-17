@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Trigger the pipeline on push to 'main' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up environment (e.g., Node.js, Python, etc.)
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'  # You can specify the version of Node.js
+
+    # Step 3: Install dependencies (example for Node.js)
+    - name: Install dependencies
+      run: |
+        npm install  # Or pip install for Python, etc.
+
+    # Step 4: Run tests
+    - name: Run tests
+      run: |
+        npm test  # Or python -m unittest, pytest, etc.
+
+    # Step 5: Deploy to the server via SSH
+    - name: Deploy to server
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Store your SSH private key in GitHub secrets
+        HOST: ${{ secrets.HOST }}  # Store the server IP/hostname in GitHub secrets
+        USER: ${{ secrets.USER }}  # Store the username in GitHub secrets
+        ENV_FILE: ${{ secrets.ENV_FILE }}  # Store the .env content or file path in GitHub secrets
+      run: |
+        # Add SSH key to the agent
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+        # Optional: Disable strict host key checking for SSH (for simplicity)
+        echo "Host *" >> ~/.ssh/config
+        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+
+        # Copy .env file to the server (assuming ENV_FILE is the file or content)
+        echo "$ENV_FILE" > .env
+        scp -o StrictHostKeyChecking=no .env $USER@$HOST:~/.env
+
+        # Deploy the code to your server
+        scp -r -o StrictHostKeyChecking=no * $USER@$HOST:~
