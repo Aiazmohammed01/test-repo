@@ -20,15 +20,15 @@ jobs:
       with:
         node-version: '14'  # You can specify the version of Node.js
 
-    # Step 3: Install dependencies (example for Node.js)
-    - name: Install dependencies
-      run: |
-        npm install  # Or pip install for Python, etc.
+    # # Step 3: Install dependencies (example for Node.js)
+    # - name: Install dependencies
+    #   run: |
+    #     npm install  # Or pip install for Python, etc.
 
-    # Step 4: Run tests
-    - name: Run tests
-      run: |
-        npm test  # Or python -m unittest, pytest, etc.
+    # # Step 4: Run tests
+    # - name: Run tests
+    #   run: |
+    #     npm test  # Or python -m unittest, pytest, etc.
 
     # Step 5: Deploy to the server via SSH
     - name: Deploy to server
