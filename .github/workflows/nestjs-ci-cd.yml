@@ -1,0 +1,68 @@
+name: NestJS CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the 'main' branch
+  pull_request:
+    branches:
+      - main  # Trigger on PR to 'main' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Node.js (Make sure to specify the correct version your app uses)
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # Replace with the version you're using (e.g., 14 or 18)
+
+    # Step 3: Install dependencies (npm install)
+    - name: Install dependencies
+      run: |
+        npm install
+
+    # Step 4: Lint the code (using eslint or tslint)
+    - name: Lint code
+      run: |
+        npm run lint  # Ensure your NestJS app has a lint script in package.json
+
+    # Step 5: Build the application
+    - name: Build the app
+      run: |
+        npm run build  # Replace with the appropriate build command if different
+
+    # Step 6: Deploy to the server
+    - name: Deploy to server via SSH
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Store the private SSH key in GitHub Secrets
+        HOST: ${{ secrets.HOST }}  # Store your server's IP address or hostname in GitHub Secrets
+        USER: ${{ secrets.USER }}  # Store the SSH username in GitHub Secrets
+      run: |
+        # Add SSH key to the agent
+        mkdir -p ~/.ssh
+        echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+        # Optional: Disable strict host key checking for SSH
+        echo "Host *" >> ~/.ssh/config
+        echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+
+        # Copy the built application files to the server (adjust path accordingly)
+        scp -r -o StrictHostKeyChecking=no dist/* $USER@$HOST:/path/to/your/server/app/
+
+        # SSH into the server and restart the application (example with pm2)
+        ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+          cd /path/to/your/server/app
+          # Pull the latest changes (optional)
+          git pull origin main
+          # Install dependencies and restart the app (if using pm2, docker, etc.)
+          npm install --production  # Install dependencies if required
+          pm2 restart app  # Or any deployment script you use
+        EOF

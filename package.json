@@ -1,0 +1,69 @@
+{
+    "name": "nestjs-app",
+    "version": "1.0.0",
+    "description": "NestJS Application",
+    "main": "dist/main.js",
+    "scripts": {
+      "start": "node dist/main.js",
+      "build": "nest build",
+      "start:dev": "nest start --watch",
+      "lint": "eslint . --ext .ts", 
+      "test": "jest", 
+      "prettier": "prettier --write \"src/**/*.{ts,js,json,md}\"",
+      "start:prod": "node dist/main.js"
+    },
+    "dependencies": {
+      "@nestjs/common": "^9.0.0",
+      "@nestjs/core": "^9.0.0",
+      "@nestjs/platform-express": "^9.0.0",
+      "reflect-metadata": "^0.1.13",
+      "rxjs": "^7.5.0",
+      "class-validator": "^0.14.0",
+      "class-transformer": "^0.4.0",
+      "dotenv": "^16.0.0",
+      "nestjs-dotenv": "^1.0.0"
+    },
+    "devDependencies": {
+      "@nestjs/cli": "^9.0.0",
+      "@nestjs/schematics": "^9.0.0",
+      "eslint": "^8.0.0", 
+      "eslint-plugin-import": "^2.26.0",
+      "eslint-plugin-prettier": "^4.0.0",
+      "eslint-config-prettier": "^8.0.0",
+      "prettier": "^2.5.0",  
+      "jest": "^28.0.0",  
+      "ts-jest": "^28.0.0",  
+      "ts-loader": "^9.0.0", 
+      "typescript": "^4.5.0"  
+    },
+    "eslintConfig": {
+      "extends": [
+        "eslint:recommended",
+        "plugin:prettier/recommended"
+      ],
+      "parser": "@typescript-eslint/parser",
+      "parserOptions": {
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+      },
+      "plugins": [
+        "@typescript-eslint",
+        "prettier"
+      ],
+      "rules": {
+        "prettier/prettier": "error",
+        "no-console": "warn",
+        "no-debugger": "warn"
+      }
+    },
+    "jest": {
+      "preset": "ts-jest",
+      "testEnvironment": "node",
+      "moduleFileExtensions": ["js", "ts"],
+      "transform": {
+        "^.+\\.ts$": "ts-jest"
+      }
+    }
+  }
+  
